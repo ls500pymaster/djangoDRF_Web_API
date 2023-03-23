@@ -16,7 +16,10 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+
+import snippets.views
 from webapi.views import GroupViewSet
+from snippets.views import PostViewSet, CommentViewSet
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,10 +36,12 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"groups", GroupViewSet)
-
+router.register(r"posts", PostViewSet)
+router.register(r"comments", CommentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include('snippets.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
